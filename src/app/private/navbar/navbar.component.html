@@ -1,0 +1,51 @@
+<div class="mt-6 px-4">
+  <p-megamenu
+    [model]="items"
+    [style]="{ 'border-radius': '3rem', display: 'flex' }"
+    styleClass="p-4 bg-surface-0 dark:bg-surface-900 border border-red-500 shadow-[0_0_15px_2px_rgba(255,0,0,0.5)] rounded-full"
+  >
+    <ng-template #start>
+      <svg width="33" height="35" viewBox="0 0 33 35" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-8">
+        <path d="..." fill="var(--primary-color)" />
+      </svg>
+    </ng-template>
+
+    <ng-template #item let-item>
+      <a *ngIf="item.root"
+         pRipple
+         class="flex items-center cursor-pointer px-4 py-2 overflow-hidden relative font-semibold text-lg uppercase text-gray-800 dark:text-white hover:text-red-500 transition-all duration-200"
+         style="border-radius: 2rem">
+        <i [ngClass]="item.icon"></i>
+        <span class="ml-2">{{ item.label }}</span>
+      </a>
+
+      <a *ngIf="!item.root && !item.image"
+         class="flex items-center p-4 cursor-pointer mb-2 gap-2"
+         [routerLink]="item.routerLink"
+         routerLinkActive="router-link-active">
+        <span class="inline-flex items-center justify-center rounded-full bg-primary text-primary-contrast w-12 h-12">
+          <i [ngClass]="item.icon + ' text-lg'"></i>
+        </span>
+        <span class="inline-flex flex-col gap-1">
+          <span class="font-medium text-lg text-surface-900 dark:text-surface-0">{{ item.label }}</span>
+          <span class="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ item.subtext }}</span>
+        </span>
+      </a>
+
+      <div *ngIf="item.image" class="flex flex-col items-start gap-4">
+        <img [src]="item.image" alt="megamenu-demo" class="w-full rounded-xl" />
+        <span>{{ item.subtext }}</span>
+        <p-button [label]="item.label" [outlined]="true"></p-button>
+      </div>
+    </ng-template>
+
+    <ng-template #end>
+      <p-avatar
+        image="data:image/png;base64,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"
+        shape="circle"
+      />
+    </ng-template>
+  </p-megamenu>
+</div>
+
+<router-outlet></router-outlet>

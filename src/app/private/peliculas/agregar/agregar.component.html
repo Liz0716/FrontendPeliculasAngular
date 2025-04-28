@@ -1,0 +1,213 @@
+<p-toast position="top-right"></p-toast>
+
+<form
+  [formGroup]="Formulario"
+  (ngSubmit)="onSubmit()"
+  class="max-w-2xl mx-auto bg-gray-100 dark:bg-gray-800 shadow-lg rounded-xl p-8 mt-10 space-y-6"
+  >
+  <h2
+    class="text-2xl font-bold text-center text-gray-700 dark:text-gray-100 mb-6"
+  >
+    {{ edicion ? "Editar pelicula" : "Registrar pelicula" }}
+  </h2>
+
+  <div class="space-y-2">
+    <label for="nombre" class="text-gray-700 dark:text-gray-200 font-medium"
+      >Nombre</label
+    >
+    <input
+      pInputText
+      id="nombre"
+      formControlName="nombre"
+      class="w-full p-3 border rounded-lg bg-white dark:bg-gray-700 dark:text-white border-gray-300 dark:border-gray-600 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      placeholder="Ej. El señor de los anillos"
+    />
+  </div>
+
+  <div class="space-y-2">
+    <label for="sinopsis" class="text-gray-700 dark:text-gray-200 font-medium"
+      >Sinopsis</label
+    >
+    <textarea
+      pInputTextarea
+      id="sinopsis"
+      formControlName="sinopsis"
+      rows="4"
+      class="w-full p-3 border rounded-lg bg-white dark:bg-gray-700 dark:text-white border-gray-300 dark:border-gray-600 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      placeholder="Descripción breve de la pelicula"
+    ></textarea>
+  </div>
+
+  <div class="space-y-2">
+    <label for="director" class="text-gray-700 dark:text-gray-200 font-medium"
+      >Director</label
+    >
+    <input
+      pInputText
+      id="director"
+      formControlName="director"
+      class="w-full p-3 border rounded-lg bg-white dark:bg-gray-700 dark:text-white border-gray-300 dark:border-gray-600 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      placeholder="Nombre del director"
+    />
+  </div>
+
+  <div class="space-y-2">
+    <label
+      for="anio_publicacion"
+      class="text-gray-700 dark:text-gray-200 font-medium"
+      >Año de publicación</label
+    >
+    <input
+      pInputText
+      id="anio_publicacion"
+      formControlName="anio_publicacion"
+      type="number"
+      class="w-full p-3 border rounded-lg bg-white dark:bg-gray-700 dark:text-white border-gray-300 dark:border-gray-600 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      placeholder="Ej. 2001"
+    />
+  </div>
+
+  <div class="space-y-2">
+    <label for="urlImagen" class="text-gray-700 dark:text-gray-200 font-medium"
+      >URL de la imagen</label
+    >
+    <input
+      pInputText
+      id="urlImagen"
+      formControlName="urlImagen"
+      type="text"
+      class="w-full p-3 border rounded-lg bg-white dark:bg-gray-700 dark:text-white border-gray-300 dark:border-gray-600 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      placeholder="https://..."
+    />
+  </div>
+
+  <div *ngIf="Formulario.get('urlImagen')?.value" class="text-center">
+    <img
+      [src]="Formulario.get('urlImagen')?.value"
+      alt="Vista previa de la imagen"
+      class="max-h-60 mx-auto mt-4 rounded-lg shadow-md border border-gray-300 dark:border-gray-700 object-contain"
+      (error)="Formulario.get('urlImagen')?.setValue('')"
+    />
+  </div>
+
+  <div class="space-y-2">
+    <label for="duracion" class="text-gray-700 dark:text-gray-200 font-medium"
+      >Duración</label
+    >
+    <input
+      pInputText
+      id="duracion"
+      formControlName="duracion"
+      type="text"
+      class="w-full p-3 border rounded-lg bg-white dark:bg-gray-700 dark:text-white border-gray-300 dark:border-gray-600 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      placeholder="Ej. 2h 30min"
+    />
+  </div>
+
+  <!-- <div class="space-y-2">
+    <label for="id_genero" class="text-gray-700 dark:text-gray-200 font-medium">Género</label>
+    <p-dropdown
+      [options]="generos"
+      optionLabel="nombre"
+      optionValue="id"
+      formControlName="id_genero"
+      placeholder="Selecciona un género"
+      class="w-full"
+    ></p-dropdown>
+  </div> -->
+
+  <div class="space-y-2">
+    <label for="id_genero" class="text-gray-700 dark:text-gray-200 font-medium"
+      >Genero</label
+    >
+    <p-select
+      [options]="generos"
+      formControlName="id_genero"
+      optionLabel="nombre"
+      optionValue="id"
+      placeholder="Selecciona un genero"
+      class="w-full"
+    >
+      <ng-template #footer>
+        <div class="p-3">
+          <p-button
+            label="Agregar nuevo genero"
+            icon="pi pi-plus"
+            text
+            size="small"
+            severity="secondary"
+            (click)="abrirDialogo()"
+          ></p-button>
+        </div>
+      </ng-template>
+    </p-select>
+  </div>
+
+  <p-dialog
+    header="Agregar nuevo genero"
+    [(visible)]="dialgo"
+    [modal]="true"
+    [style]="{ width: '25rem' }"
+    [closable]="false"
+  >
+    <span class="p-text-secondary block mb-8"
+      >Escribe el nombre del nuevo genero:</span
+    >
+
+    <div class="flex items-center gap-4 mb-8">
+      <label for="nuevoGenero" class="font-semibold w-24">Genero</label>
+      <input
+        pInputText
+        id="nuevoGenero"
+        class="flex-auto"
+        formControlName="nombreGenero"
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="flex justify-end gap-2">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        (click)="cerrarDialogo()"
+      />
+      <p-button
+        label="Guardar"
+        (click)="dialogGenero()"
+        [disabled]="Formulario.get('nombreGenero')?.invalid"
+      />
+    </div>
+  </p-dialog>
+
+  <div class="space-y-2">
+    <label for="id_user" class="text-gray-700 dark:text-gray-200 font-medium"
+      >Usuario</label
+    >
+    <p-dropdown
+      [options]="usuarios"
+      optionLabel="name"
+      optionValue="id"
+      formControlName="id_user"
+      placeholder="Selecciona un usuario"
+      class="w-full"
+    ></p-dropdown>
+  </div>
+
+  <div class="pt-4">
+    <button
+      type="submit"
+      *ngIf="edicion"
+      class="w-full text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+    >
+      Guardar cambios
+    </button>
+
+    <button
+      type="submit"
+      *ngIf="!edicion"
+      class="w-full text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+    >
+      Registrar pelicula
+    </button>
+  </div>
+</form>

@@ -1,0 +1,25 @@
+<div class="grid grid-cols-1 md:grid-cols-3 gap-2 p-6">
+  <div class="flex justify-center" *ngIf="datos">
+    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+      <ng-template #header>
+        <img alt="Peliculas Registradas" class="w-full h-40 object-cover" src="https://img.freepik.com/vector-premium/icono-pelicula-estilo-comic-ilustracion-vector-dibujos-animados-pelicula-sobre-fondo-blanco-aislado-concepto-negocio-efecto-salpicadura-cine-teatro_157943-7002.jpg" />
+      </ng-template>
+      <ng-template #title>Peliculas Registradas</ng-template>
+      <ng-template #subtitle>{{ datos.peliculas }}</ng-template>
+    </p-card>
+  </div>
+
+  <div class="flex justify-center">
+    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+      <ng-template #header>
+        <img alt="Usuarios Registrados" class="w-full h-40 object-cover" src="https://static.vecteezy.com/system/resources/previews/020/096/482/non_2x/cartoon-people-icon-in-comic-style-users-illustration-pictogram-teamwork-person-sign-splash-business-concept-vector.jpg" />
+      </ng-template>
+      <ng-template #title>Usuarios Registrados</ng-template>
+      <ng-template #subtitle>{{ datos.usuarios }}</ng-template>
+    </p-card>
+  </div>
+</div>
+
+<div class="card mt-6 mx-6 w-[400px] h-[300px]">
+  <p-chart type="bar" [data]="peliculasData" [options]="peliculasOptions" />
+</div>

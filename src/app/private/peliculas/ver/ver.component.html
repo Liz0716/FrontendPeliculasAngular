@@ -1,0 +1,124 @@
+<p-confirmDialog></p-confirmDialog>
+<p-toast position="top-right"></p-toast>
+
+<div class="flex justify-end items-center px-6 pt-6">
+  <button
+    type="button"
+    class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800"
+    (click)="router.navigate(['/agregarPeliculas'])"
+  >
+    <i class="pi pi-plus-circle mr-2"></i> Agregar Pelicula
+  </button>
+</div>
+
+<div class="flex items-center px-6 mb-6">
+  <p-dropdown
+    [options]="generos"
+    optionLabel="nombre"
+    optionValue="id"
+    [(ngModel)]="filtradoGenero"
+    (ngModelChange)="filtrarGeneros()"
+    placeholder="Filtrar por Genero"
+    class="w-64"
+    appendTo="body"
+  ></p-dropdown>
+
+  <button
+    *ngIf="filtradoGenero"
+    pButton
+    icon="pi pi-times"
+    class="p-button-rounded p-button-outlined p-button-sm ml-2 !border-red-400 !text-red-500 hover:!bg-red-100 hover:!text-white"
+    (click)="limpiarFiltro()"
+    pTooltip="Quitar filtro"
+    tooltipPosition="top"
+  ></button>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-6">
+  <ng-container *ngFor="let pelicula of peliculas">
+    <p-card
+      [style]="{ width: '100%', overflow: 'hidden' }"
+      class="relative shadow-xl rounded-2xl transition-transform transform hover:scale-105 hover:shadow-2xl bg-white dark:bg-gray-900 text-gray-800 dark:text-white border border-blue-500/20 ring-1 ring-blue-500/10 hover:ring-2 hover:ring-purple-400 transition-all duration-300"
+    >
+      <ng-template #header>
+        <img
+          [src]="pelicula.urlImagen"
+          alt="{{ pelicula.nombre }}"
+          class="w-full h-52 object-cover rounded-t-2xl transition-opacity duration-300 hover:opacity-90"
+          onerror="this.src='https://via.placeholder.com/600x300?text=Imagen+no+disponible';"
+        />
+      </ng-template>
+
+      <ng-template #title>
+        <h3 class="text-xl font-bold">{{ pelicula.nombre }}</h3>
+      </ng-template>
+
+      <ng-template #subtitle>
+        <span class="text-sm text-gray-600 dark:text-gray-400 italic"
+          >Dirigida por {{ pelicula.director }}</span
+        >
+      </ng-template>
+
+      <div class="text-sm mt-3 space-y-1">
+        <p>
+          <span class="font-semibold">🎬 Año:</span>
+          {{ pelicula.anio_publicacion }}
+        </p>
+        <p>
+          <span class="font-semibold">⏱️ Duración:</span>
+          {{ pelicula.duracion }}
+        </p>
+        <p>
+          <span class="font-semibold">🎞️ Genero:</span>
+          {{ pelicula.genero.nombre }}
+        </p>
+
+        <p class="text-justify">
+          <span class="font-semibold">📖 Sinopsis:</span>
+          {{ pelicula.sinopsis | slice : 0 : 100 }}
+          <a
+            class="text-blue-600 dark:text-blue-400 hover:underline cursor-pointer ml-1"
+            (click)="verSinopsis(pelicula.sinopsis)"
+          >
+            ver mas...
+          </a>
+        </p>
+      </div>
+
+      <ng-template #footer>
+        <div class="flex justify-end gap-2 mt-4">
+          <button
+            pButton
+            icon="pi pi-pen-to-square"
+            class="p-button-rounded p-button-text p-button-warning"
+            (click)="editarPelicula(pelicula)"
+            pTooltip="Editar"
+          ></button>
+
+          <button
+            pButton
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-text p-button-danger"
+            (click)="eliminarPelicula(pelicula)"
+            pTooltip="Eliminar"
+          ></button>
+        </div>
+      </ng-template>
+    </p-card>
+  </ng-container>
+</div>
+
+<p-dialog
+  header="Sinopsis completa"
+  [(visible)]="dialog"
+  [style]="{ width: '30rem' }"
+  modal
+  [breakpoints]="{ '768px': '90vw' }"
+  [draggable]="false"
+  [dismissableMask]="true"
+>
+  <p class="text-justify text-sm whitespace-pre-line dark:text-white">
+    {{ sinopsisSeleccionda }}
+  </p>
+</p-dialog>
+
