@@ -33,18 +33,22 @@
     </p-floatLabel>
   </div>
 
-  <div class="space-y-2">
-    <p-floatLabel>
-      <p-password
-        id="password"
-        formControlName="password"
-        [toggleMask]="true"
-        styleClass="w-full"
-        inputStyleClass="w-full p-3 rounded-md bg-gray-700 text-white border border-gray-600 placeholder-gray-400 focus:ring-2 focus:ring-red-500 focus:border-red-500"
-      />
-      <label for="password" class="text-gray-300">Contraseña</label>
-    </p-floatLabel>
-  </div>
+<div class="space-y-2">
+  <p-floatLabel>
+    <p-password
+      id="password"
+      formControlName="password"
+      [toggleMask]="true"
+      styleClass="w-full"
+      inputStyleClass="w-full p-3 rounded-md bg-gray-700 text-white border border-gray-600 placeholder-gray-400 focus:ring-2 focus:ring-red-500 focus:border-red-500"
+    />
+    <label for="password" class="text-gray-300">Contraseña</label>
+  </p-floatLabel>
+  <small class="text-gray-400 text-sm block">
+  Recuerda: Es necesario colocar un caracter especial, numero y letras.
+  </small>
+</div>
+
 
   <div class="pt-4">
     <button
